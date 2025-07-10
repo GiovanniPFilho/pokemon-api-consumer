@@ -1,0 +1,139 @@
+// ESSA APLICAÇÃO TEM COMO OBJETIVO ESTUDO E APRENDIZADO //
+
+🧠 Como pensar e estruturar APIs escaláveis em Node.js
+🔹 1. Comece pelo problema: “O que essa API precisa fazer?”
+Neste caso:
+
+Consumir a PokéAPI
+
+Criar endpoints próprios (ex: /pokemon/:name)
+
+Retornar dados filtrados em JSON
+
+🧠 Raciocínio:
+“Eu não vou salvar nem alterar nada. Só buscar dados externos e entregar formatado.”
+
+
+
+🔹 2. Use arquitetura em camadas
+Essa separação facilita organização, testes e manutenção.
+
+Pasta	        Função
+routes/	        Define os caminhos da API (ex: GET /pokemon/:name)
+2- controllers/	Recebem a requisição e enviam a resposta
+1- services/	    Executam a lógica de negócio (ex: chamar API externa, tratar resposta)
+models/	        Representam a estrutura dos dados usados na app
+middlewares/	Tratam validações, erros, autenticação, etc.
+
+src/app.js	    Monta o Express com rotas e middlewares
+index.js	    Ponto de entrada, apenas inicializa o app e escuta a porta
+
+
+
+🔹 3. Ponto de entrada: index.js
+Ele faz três coisas:
+
+Carrega .env com dotenv
+
+Importa o app já montado da pasta src/
+
+Sobe o servidor e escuta na porta
+
+🧠 Raciocínio:
+“Index.js é só o arranque. Tudo que for estrutura de app fica separado em src/.”
+
+
+
+🔹 4. Arquivo src/app.js
+Aqui você:
+
+Cria o Express
+
+Define a rota raiz (/)
+
+Usa suas rotas personalizadas (ex: /pokemon)
+
+Usa o middleware de erro no final
+
+🧠 Raciocínio:
+“O app.js é o cérebro que monta as peças da aplicação.”
+
+
+
+🔹 5. Roteamento: routes/pokemon.routes.js
+Define rotas específicas, como GET /pokemon/:name
+
+Conecta a rota ao controller correspondente
+
+🧠 Raciocínio:
+“Cada rota sabe quem chama (controller), mas não como processar — isso é trabalho do controller e service.”
+
+
+
+🔹 6. Controlador: controllers/pokemon.controller.js
+Recebe parâmetros da URL (como :name)
+
+Chama o service correspondente
+
+Envia a resposta para o cliente
+
+Captura erros com try/catch e passa pro middleware de erro
+
+🧠 Raciocínio:
+“O controller é o intermediário entre a requisição e a lógica de negócio.”
+
+
+
+🔹 7. Lógica de negócio: services/pokemon.service.js
+Aqui acontece a requisição à PokéAPI (fetch)
+
+Se der erro, lança uma Error
+
+Se der certo, filtra os dados (só envia o que interessa)
+
+🧠 Raciocínio:
+“Toda lógica pesada ou externa vai para os services. O controller só chama e devolve.”
+
+
+
+🔹 8. Estrutura de dados: models/pokemon.model.js
+Mesmo sem banco de dados, é útil definir a estrutura esperada dos dados que você está manipulando.
+
+🧠 Raciocínio:
+“Mesmo sem persistência, modelos ajudam a manter consistência e clareza.”
+
+
+
+🔹 9. Tratamento de erro: middlewares/errorHandler.middleware.js
+Recebe qualquer erro lançado em controller ou service
+
+Loga no console
+
+Retorna status 404 ou mensagem genérica
+
+🧠 Raciocínio:
+“Não quero try/catch em todos os lugares. Melhor centralizar o tratamento de erro aqui.”
+
+
+
+🧠 Como raciocinar em futuros projetos?
+✅ Passo a passo mental:
+Qual é o objetivo da API?
+
+Ex: buscar clima, cadastrar usuários, consultar produtos
+
+Quais são as rotas/endpoints?
+
+Ex: GET /weather/:city, POST /user
+
+O que cada rota precisa fazer?
+
+Consultar API externa? Salvar no banco? Validar entrada?
+
+Organize em camadas
+
+Rota → Controller → Service → (opcional: Model ou DB)
+
+Trate erros de forma centralizada
+
+Use um middleware final no app.js
