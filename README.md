@@ -1,3 +1,26 @@
+🚀 How to Run
+
+Requires Node.js 20.17.0 installed
+
+
+```bash
+git clone git@github.com:GiovanniPFilho/pokemon-api-consumer.git
+
+cd pokemon-api-consumer
+
+nvm use
+
+npm install
+
+node server.js
+```
+
+Visit: http://localhost:3000
+
+
+-------------------------------------------------------------------------------------------------
+
+
 // THIS APPLICATION IS FOR STUDY AND LEARNING PURPOSES //
 
 🧠 How to Think and Structure Scalable APIs in Node.js
