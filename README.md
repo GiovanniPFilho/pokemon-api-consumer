@@ -17,6 +17,12 @@ node server.js
 
 Visit: http://localhost:3000
 
+Acess the route that you want see information:
+
+/pokemon/name
+
+Ex.: http://localhost:3000/pokemon/pikachu
+
 
 -------------------------------------------------------------------------------------------------
 
